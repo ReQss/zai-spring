@@ -1,9 +1,7 @@
 package com.triptip.triptip.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.mapping.Join;
 
 @Entity
 @Table (name = "Users")
@@ -13,7 +11,14 @@ public class User {
     private int id;
     private String login;
     private String password;
-
+    private String fname;
+    private String lname;
+    private String email;
+    private int roleId; //join
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    private Integer phone=0;
     public User(){
 
     }
@@ -21,11 +26,17 @@ public class User {
         this.login = login;
         this.password = password;
     }
-    public User(int id, String login, String password, String pictureUrl) {
+
+    public User(int id, String login, String password, String fname, String lname, String email, int roleId, Address address, Integer phone) {
         this.id = id;
         this.login = login;
         this.password = password;
-
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.roleId = roleId;
+        this.address = address;
+        this.phone = phone;
     }
 
     public int getId() {
@@ -52,6 +63,53 @@ public class User {
         this.password = password;
     }
 
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
 
     @Override
     public String toString() {
@@ -59,6 +117,12 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", email='" + email + '\'' +
+                ", roleId=" + roleId +
+                ", address=" + address +
+                ", phone=" + phone +
                 '}';
     }
 }

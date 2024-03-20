@@ -1,17 +1,39 @@
 package com.triptip.triptip;
 
+import com.triptip.triptip.model.Order;
+import com.triptip.triptip.model.OrderItem;
 import com.triptip.triptip.model.User;
+import com.triptip.triptip.repository.OrderItemRepository;
+import com.triptip.triptip.repository.OrderRepository;
 import com.triptip.triptip.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ShoppingAppTests {
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	@Test
 	void contextLoads() {
 
+	}
+
+	private User createUser(String login, String password){
+		return userRepository.save(new User(login,password));
 	}
 	@Test
 	void testSaveTwoUsers() {
@@ -27,12 +49,99 @@ class ShoppingAppTests {
 		User savedUser1 = userRepository.findByLogin("adam");
 		User savedUser2 = userRepository.findByLogin("jan");
 
-//		assertNotNull(savedUser1);
-//		assertNotNull(savedUser2);
-//		assertEquals("nowak", savedUser1.getPassword());
-//		assertEquals("kowalski", savedUser2.getPassword());
+		assertNotNull(savedUser1);
+		assertNotNull(savedUser2);
+		assertEquals("nowak", savedUser1.getPassword());
+		assertEquals("kowalski", savedUser2.getPassword());
 	}
-	private User createUser(String login, String password){
-		return userRepository.save(new User(login,password));
+	@Test
+	void testListAllUsers() {
+
+		List<User> userList = userRepository.findAll();
+
+		// Display all users
+		System.out.println("All Users:");
+		for (User user : userList) {
+			System.out.println("User: " + user);
+		}
+
+	}
+	@Test
+	void testListAllOrders(){
+		List<Order> orderList = orderRepository.findAll();
+		System.out.println("Orders: \n");
+		int i=0;
+		for(Order order : orderList){
+			System.out.println("Order: " + i + " - " + order);
+			i++;
+		}
+	}
+	//Użytkownika według maila
+	@Test
+	void findUserByMail(){
+		String email = "user1@o2.pl";
+		List<User> userList = userRepository.findAll();
+		for(User user:userList){
+			if(user.getEmail().contains(email))System.out.println(user);
+		}
+
+	}
+	//Liczba transakcji
+	@Test
+	void countOrders(){
+		List<Order> orderList = orderRepository.findAll();
+
+		int i=0;
+		for(Order order : orderList){
+			i++;
+		}
+		System.out.println("Number of transactions: " + i);
+	}
+	//Liczba transakcji konkretnego użytkownika
+	@Test
+	public void countTransactionByUsername(){
+		String username = "adam";
+		List<Order> orderList = orderRepository.findAll();
+		int count=0;
+		for(Order order: orderList){
+			if(order.getUser().getLogin().contains(username))count++;
+		}
+		System.out.println("Numer of transactions for user "+username + " is " +count);
+	}
+	//Liczba transakcji konkretnego produktu
+	@Test
+	public void countTransactionsByProductName() {
+		String productName = "Amazon";
+		List<OrderItem> orderItemList = orderItemRepository.findAll();
+
+		// Group OrderItems by orderId
+		Map<Integer, List<OrderItem>> orderItemMap = new HashMap<>();
+		for (OrderItem orderItem : orderItemList) {
+			int orderId = orderItem.getOrderId();
+			orderItemMap.computeIfAbsent(orderId, k -> new ArrayList<>()).add(orderItem);
+		}
+
+		// Print each order along with its items
+
+		int i=0;
+	//	int check=0;
+		for (List<OrderItem> orderItems : orderItemMap.values()) {
+		//	check=0;
+			// Iterate through the list of order items
+			for (OrderItem orderItem : orderItems) {
+
+				if(orderItem.getProduct().getProductName().contains(productName)){
+					i++;
+					System.out.println("Order Item: " + orderItem);
+					break;
+				}
+
+			}
+		}
+		int numberOfLists = orderItemMap.size();
+
+		System.out.println("Number of lists: " + i);
+
+
 	}
 }

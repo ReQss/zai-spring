@@ -14,10 +14,8 @@ public class Product {
     @Column(name = "imageurl")
     private String imageSrc;
     private int stock;
-
     @Column(name = "price")
     private float price;
-
     @JoinColumn (name = "platformid")
     private int platformId;
     @JoinColumn(name = "categoryid")
