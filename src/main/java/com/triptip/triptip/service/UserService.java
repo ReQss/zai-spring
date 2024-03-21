@@ -16,21 +16,6 @@ public class UserService {
     }
     public User addUser(User user){
         User exist = userRepository.findByLogin(user.getLogin());
-        if(exist != null)return null;
-        return userRepository.save(user);
-    }
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-    public User checkUser(String login, String password){
-        List <User> userList = getAllUsers();
-        for(User user : userList){
-            if(user.getLogin().equals(login)){
-                if(user.getPassword().equals(password)){
-                    return user;
-                }
-            }
-        }
-        return null;
+        return exist == null ?  userRepository.save(user) : null;
     }
 }

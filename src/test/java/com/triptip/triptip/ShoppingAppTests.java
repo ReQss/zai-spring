@@ -2,9 +2,11 @@ package com.triptip.triptip;
 
 import com.triptip.triptip.model.Order;
 import com.triptip.triptip.model.OrderItem;
+import com.triptip.triptip.model.Product;
 import com.triptip.triptip.model.User;
 import com.triptip.triptip.repository.OrderItemRepository;
 import com.triptip.triptip.repository.OrderRepository;
+import com.triptip.triptip.repository.ProductRepository;
 import com.triptip.triptip.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ class ShoppingAppTests {
 	private OrderRepository orderRepository;
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Test
 	void contextLoads() {
@@ -143,5 +147,14 @@ class ShoppingAppTests {
 		System.out.println("Number of lists: " + i);
 
 
+	}
+	@Test
+	public void getProductByPrice(){
+		int price1=900,price2=1100;
+		List<Product> productList = productRepository.findAll();
+		for(Product product:productList){
+			if(product.getPrice()>=price1 && product.getPrice() <=price2)
+			System.out.println(product);
+		}
 	}
 }
