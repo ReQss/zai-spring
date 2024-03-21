@@ -149,6 +149,10 @@ class ShoppingAppTests {
 
 	}
 	@Test
+	public void listProducts(){
+		System.out.println(productRepository.findAll());
+	}
+	@Test
 	public void getProductByPrice(){
 		int price1=900,price2=1100;
 		List<Product> productList = productRepository.findAll();

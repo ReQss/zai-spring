@@ -18,18 +18,30 @@ public class Product {
     private float price;
     @JoinColumn (name = "platformid")
     private int platformId;
-    @JoinColumn(name = "categoryid")
-    private int categoryId;
+
+//    @JoinColumn(name = "categoryId")
+  //  @Column(name = "CategoryId")
+   // private int categoryId;
+    @OneToOne
+    @JoinColumn(name ="categoryid")
+    private Category category;
+
+    public Product(){
+
+    }
+
+    public Product(int id, String productName, String imageSrc, int stock, float price, int platformId, Category category) {
+        this.id = id;
+        this.productName = productName;
+        this.imageSrc = imageSrc;
+        this.stock = stock;
+        this.price = price;
+        this.platformId = platformId;
+        this.category = category;
+    }
+
     public int getId() {
         return id;
-    }
-
-    public String getImageSrc() {
-        return imageSrc;
-    }
-
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
     }
 
     public void setId(int id) {
@@ -40,16 +52,24 @@ public class Product {
         return productName;
     }
 
-    public void setProductName(String name) {
-        this.productName = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public int getStock() {
         return stock;
     }
 
-    public void setStock(int quantity) {
-        this.stock = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public float getPrice() {
@@ -68,12 +88,12 @@ public class Product {
         this.platformId = platformId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -82,10 +102,10 @@ public class Product {
                 "id=" + id +
                 ", productName='" + productName + '\'' +
                 ", imageSrc='" + imageSrc + '\'' +
-                ", quantity=" + stock +
+                ", stock=" + stock +
                 ", price=" + price +
                 ", platformId=" + platformId +
-                ", categoryId=" + categoryId +
+                ", category=" + category +
                 '}';
     }
 }
