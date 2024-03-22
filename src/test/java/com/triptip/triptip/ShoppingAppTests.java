@@ -60,9 +60,7 @@ class ShoppingAppTests {
 	}
 	@Test
 	void testListAllUsers() {
-
 		List<User> userList = userRepository.findAll();
-
 		// Display all users
 		System.out.println("All Users:");
 		for (User user : userList) {
@@ -70,6 +68,11 @@ class ShoppingAppTests {
 		}
 
 	}
+    @Test
+    void findUser(){
+        User user = userRepository.findByLogin("chujc");
+        System.out.println(user);
+    }
 	@Test
 	void testListAllOrders(){
 		List<Order> orderList = orderRepository.findAll();
@@ -112,6 +115,7 @@ class ShoppingAppTests {
 		}
 		System.out.println("Numer of transactions for user "+username + " is " +count);
 	}
+
 	//Liczba transakcji konkretnego produktu
 	@Test
 	public void countTransactionsByProductName() {
@@ -133,20 +137,15 @@ class ShoppingAppTests {
 		//	check=0;
 			// Iterate through the list of order items
 			for (OrderItem orderItem : orderItems) {
-
 				if(orderItem.getProduct().getProductName().contains(productName)){
 					i++;
 					System.out.println("Order Item: " + orderItem);
 					break;
 				}
-
 			}
 		}
 		int numberOfLists = orderItemMap.size();
-
 		System.out.println("Number of lists: " + i);
-
-
 	}
 	@Test
 	public void listProducts(){
