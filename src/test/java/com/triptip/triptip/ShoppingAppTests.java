@@ -73,6 +73,7 @@ class ShoppingAppTests {
         User user = userRepository.findByLogin("chujc");
         System.out.println(user);
     }
+
 	@Test
 	void testListAllOrders(){
 		List<Order> orderList = orderRepository.findAll();

@@ -14,7 +14,9 @@ public class User {
     private String fname;
     private String lname;
     private String email;
-    private int roleId; //join
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -27,14 +29,14 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String login, String password, String fname, String lname, String email, int roleId, Address address, Integer phone) {
+    public User(int id, String login, String password, String fname, String lname, String email, Role role, Address address, Integer phone) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.fname = fname;
         this.lname = lname;
         this.email = email;
-        this.roleId = roleId;
+        this.role = role;
         this.address = address;
         this.phone = phone;
     }
@@ -87,12 +89,12 @@ public class User {
         this.email = email;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Address getAddress() {
@@ -120,9 +122,10 @@ public class User {
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +
-                ", roleId=" + roleId +
+                ", role=" + role +
                 ", address=" + address +
                 ", phone=" + phone +
                 '}';
     }
 }
+
