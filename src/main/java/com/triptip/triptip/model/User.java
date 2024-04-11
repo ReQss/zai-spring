@@ -15,7 +15,7 @@ public class User {
     private String lname;
     private String email;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
@@ -28,7 +28,17 @@ public class User {
         this.login = login;
         this.password = password;
     }
-
+    public User(User user) {
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.password = user.getPassword();
+        this.fname = user.getFname();
+        this.lname = user.getLname();
+        this.email = user.getEmail();
+        this.role = user.getRole();
+        this.address = user.getAddress();
+        this.phone = user.getPhone();
+    }
     public User(int id, String login, String password, String fname, String lname, String email, Role role, Address address, Integer phone) {
         this.id = id;
         this.login = login;

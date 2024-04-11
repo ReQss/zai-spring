@@ -17,7 +17,21 @@ public class Address {
     public Address(){
 
     }
-
+    public Address(Address address) {
+        this.addressId = address.getAddressId();
+        this.houseNr = address.getHouseNr();
+        this.street = address.getStreet();
+        this.country = address.getCountry();
+        this.city = address.getCity();
+        this.postalCode = address.getPostalCode();
+    }
+    public Address( int houseNr, String street, String country, String city, int postalCode) {
+        this.houseNr = houseNr;
+        this.street = street;
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
     public Address(int addressId, int houseNr, String street, String country, String city, int postalCode) {
         this.addressId = addressId;
         this.houseNr = houseNr;
@@ -26,7 +40,6 @@ public class Address {
         this.city = city;
         this.postalCode = postalCode;
     }
-
     public int getAddressId() {
         return addressId != null ? addressId : 0;
     }

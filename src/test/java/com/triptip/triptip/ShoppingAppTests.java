@@ -1,13 +1,8 @@
 package com.triptip.triptip;
 
-import com.triptip.triptip.model.Order;
-import com.triptip.triptip.model.OrderItem;
-import com.triptip.triptip.model.Product;
-import com.triptip.triptip.model.User;
-import com.triptip.triptip.repository.OrderItemRepository;
-import com.triptip.triptip.repository.OrderRepository;
-import com.triptip.triptip.repository.ProductRepository;
-import com.triptip.triptip.repository.UserRepository;
+import com.triptip.triptip.model.*;
+import com.triptip.triptip.repository.*;
+import com.triptip.triptip.service.AddressService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +25,10 @@ class ShoppingAppTests {
 	private OrderItemRepository orderItemRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private AddressRepository addressRepository;
+	@Autowired
+	private AddressService addressService;
 
 	@Test
 	void contextLoads() {
@@ -70,10 +69,9 @@ class ShoppingAppTests {
 	}
     @Test
     void findUser(){
-        User user = userRepository.findByLogin("chujc");
+        User user = userRepository.findByLogin("user1");
         System.out.println(user);
     }
-
 	@Test
 	void testListAllOrders(){
 		List<Order> orderList = orderRepository.findAll();
@@ -108,7 +106,7 @@ class ShoppingAppTests {
 	//Liczba transakcji konkretnego użytkownika
 	@Test
 	public void countTransactionByUsername(){
-		String username = "adam";
+		String username = "user1";
 		List<Order> orderList = orderRepository.findAll();
 		int count=0;
 		for(Order order: orderList){
@@ -130,13 +128,11 @@ class ShoppingAppTests {
 			orderItemMap.computeIfAbsent(orderId, k -> new ArrayList<>()).add(orderItem);
 		}
 
-		// Print each order along with its items
 
 		int i=0;
 	//	int check=0;
 		for (List<OrderItem> orderItems : orderItemMap.values()) {
-		//	check=0;
-			// Iterate through the list of order items
+
 			for (OrderItem orderItem : orderItems) {
 				if(orderItem.getProduct().getProductName().contains(productName)){
 					i++;
@@ -158,7 +154,19 @@ class ShoppingAppTests {
 		List<Product> productList = productRepository.findAll();
 		for(Product product:productList){
 			if(product.getPrice()>=price1 && product.getPrice() <=price2)
-			System.out.println(product);
+					System.out.println(product);
 		}
+	}
+	@Test
+	public void findById(){
+
+		User user = userRepository.findById(752);
+		Address address = addressRepository.findByAddressId(1);
+		user.setAddress(address);
+	//	user.setAddress(new Address(20,"Polskaa","Lodz","Piotrkowska 140",90322));
+		//user.getAddress().
+		userRepository.save(user);
+		//addressService.addAddress(new Address(20,"Polska","Lodz","Piotrkowska 140",90322));
+		System.out.println(addressRepository.findAll());
 	}
 }
